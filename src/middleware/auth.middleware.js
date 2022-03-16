@@ -14,7 +14,7 @@ const auth = async (ctx, next) => {
   // console.log(token)
 
   try {
-    // user中包含了payload的信息(id, user_name, is_admin)
+    // user中包含了payload的信息(user_id, user_name, password, roles, email, status)
     const user = verify(token)
     ctx.state.user = user
   } catch (err) {

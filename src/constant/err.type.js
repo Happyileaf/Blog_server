@@ -1,5 +1,13 @@
+/*
+ * @Author: your name
+ * @Date: 2022-03-16 11:15:07
+ * @LastEditTime: 2022-03-16 19:42:50
+ * @LastEditors: your name
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \Blog_server\src\constant\err.type.js
+ */
 module.exports = {
-  userFormateError: {
+  userFormatError: {
     code: '10001',
     message: '用户名或密码为空',
     result: '',
@@ -52,36 +60,6 @@ module.exports = {
   unSupportedFileType: {
     code: '10202',
     message: '不支持的文件格式',
-    result: '',
-  },
-  goodsFormatError: {
-    code: '10203',
-    message: '商品参数格式错误',
-    result: '',
-  },
-  publishGoodsError: {
-    code: '10204',
-    message: '发布商品失败',
-    result: '',
-  },
-  invalidGoodsID: {
-    code: '10205',
-    message: '无效的商品id',
-    result: '',
-  },
-  cartFormatError: {
-    code: '10301',
-    message: '购物车数据格式错误',
-    result: '',
-  },
-  addrFormatError: {
-    code: '10401',
-    message: '地址数据格式错误',
-    result: '',
-  },
-  orderFormatError: {
-    code: '10501',
-    message: '订单数据格式错误',
     result: '',
   },
 }

@@ -1,67 +1,69 @@
 /*
  * @Author: your name
- * @Date: 2022-03-15 15:02:36
- * @LastEditTime: 2022-03-16 15:37:34
+ * @Date: 2022-03-16 15:18:20
+ * @LastEditTime: 2022-03-16 21:02:33
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: \Blog_server\src\model\user.js
+ * @FilePath: \Blog_server\src\model\category.js
  */
 
 const { DataTypes } = require('sequelize')
 const sequelize = require('../db/sequelize')
 const attributes = {
     // id 会被sequelize自动创建, 管理
-    user_id: {
+    category_id: {
         type: DataTypes.INTEGER(10).UNSIGNED,
         allowNull: false,
         // defaultValue: null,
         primaryKey: true,
         autoIncrement: true,
         comment: null,
-        field: "user_id"
+        field: "category_id"
     },
-    user_name: {
-        type: DataTypes.STRING(255),
-        allowNull: false,
-        // defaultValue: null,
-        primaryKey: false,
-        unique: true,
-        autoIncrement: false,
-        comment: "用户名",
-        field: "user_name"
-    },
-    password: {
+    category_name: {
         type: DataTypes.STRING(255),
         allowNull: false,
         // defaultValue: null,
         primaryKey: false,
         autoIncrement: false,
-        comment: "密码",
-        field: "password"
+        comment: null,
+        field: "category_name"
     },
-    roles: {
-        type: DataTypes.STRING(255),
-        allowNull: false,
-        defaultValue: 'user',
-        primaryKey: false,
-        autoIncrement: false,
-        comment: "角色",
-        field: "roles",
-        get() {
-            return this.getDataValue('roles').split(',');
-        },
-        set(value) {
-            return this.setDataValue('roles', value.join(','))
-        },
-    },
-    email: {
+    category_url: {
         type: DataTypes.STRING(255),
         allowNull: false,
         // defaultValue: null,
         primaryKey: false,
         autoIncrement: false,
-        comment: "邮箱",
-        field: "email"
+        comment: null,
+        field: "category_url"
+    },
+    rank: {
+        type: DataTypes.INTEGER(10),
+        allowNull: false,
+        // defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "rank"
+    },
+    back_ground: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        defaultValue: 'https://lc-mhke0kuv.cn-n1.lcfile.com/8c95587526f346c0.png',
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "back_ground"
+    },
+    icon: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        defaultValue: 'https://lc-mhke0kuv.cn-n1.lcfile.com/1c40f5eaba561e32.png',
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "icon"
     },
     status: {
         type: DataTypes.ENUM('0', '1'),
@@ -69,25 +71,25 @@ const attributes = {
         // defaultValue: null,
         primaryKey: false,
         autoIncrement: false,
-        comment: "状态",
+        comment: null,
         field: "status"
     },
 }
 
 const options = {
-    tableName: "user",
+    tableName: "category",
     comment: "",
-    id: "user_id",
+    id: "category_id",
     createdAt: "create_time",
     updatedAt: "update_time",
     indexes: []
 }
 
-const UserModel = sequelize.define('user_model', attributes, options)
+const CategoryModel = sequelize.define('category_model', attributes, options)
 
     // (async () => {
     //     await sequelize.sync({ force: true });
     //     // 这里是代码
     // })();
 
-module.exports = UserModel
+module.exports = CategoryModel
