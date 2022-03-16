@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2022-03-15 16:33:09
+ * @LastEditTime: 2022-03-16 14:51:24
+ * @LastEditors: Please set LastEditors
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \Blog_server\src\controller\user.js
+ */
 const jwt = require('jsonwebtoken')
 
 const {
@@ -8,7 +16,7 @@ const {
 
 const { userRegisterError } = require('../constant/err.type')
 
-const { JWT_SECRET } = require('../../config/config.default')
+const { sign, verify } = require('../utils/token')
 
 class UserController {
   async register(ctx, next) {
@@ -39,12 +47,13 @@ class UserController {
     try {
       // 从返回结果对象中剔除password属性, 将剩下的属性放到res对象
       const { password, ...res } = await getUerInfo({ user_name })
+      console.log(res)
 
       ctx.body = {
         code: 0,
         message: '用户登录成功',
         result: {
-          token: jwt.sign(res, JWT_SECRET, { expiresIn: '1d' }),
+          token: sign(res, { expiresIn: '1d' }),
         },
       }
     } catch (err) {
@@ -54,7 +63,7 @@ class UserController {
 
   async resetPassword(ctx, next) {
     // 1. 获取数据
-    const user_id = ctx.request.body.user_id
+    const user_id = ctx.state.user.user_id
     const password = ctx.request.body.password
 
     // 2. 操作数据库
