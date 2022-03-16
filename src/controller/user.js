@@ -6,7 +6,7 @@ const {
   updateById,
 } = require('../service/user')
 
-// const { userRegisterError } = require('../constant/err.type')
+const { userRegisterError } = require('../constant/err.type')
 
 const { JWT_SECRET } = require('../../config/config.default')
 
