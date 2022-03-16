@@ -22,6 +22,18 @@ const userValidator = async (ctx, next) => {
   await next()
 }
 
+const crpytPassword = async (ctx, next) => {
+  const { password } = ctx.request.body
+
+  const salt = bcrypt.genSaltSync(10)
+  // hash保存的是 密文
+  const hash = bcrypt.hashSync(password, salt)
+
+  ctx.request.body.password = hash
+
+  await next()
+}
+
 const verifyUser = async (ctx, next) => {
   const { user_name } = ctx.request.body
 
@@ -55,8 +67,8 @@ const verifyLogin = async (ctx, next) => {
     }
 
     // 2. 密码是否匹配(不匹配: 报错)
-    if (password!==res.password) {
-      console.error('不匹配', { user_name })
+    if (!bcrypt.compareSync(password, res.password)) {
+      console.error('密码不匹配', { user_name })
       return
     }
   } catch (err) {
@@ -70,5 +82,6 @@ const verifyLogin = async (ctx, next) => {
 module.exports = {
   userValidator,
   verifyUser,
+  crpytPassword,
   verifyLogin,
 }
