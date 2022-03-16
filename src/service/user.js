@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-03-15 16:35:04
- * @LastEditTime: 2022-03-15 21:25:48
+ * @LastEditTime: 2022-03-16 10:05:41
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Blog_server\src\service\user.js
@@ -20,34 +20,38 @@ class UserService {
     return res.dataValues
   }
 
-  // async getUerInfo({ id, user_name, password, is_admin }) {
-  //   const whereOpt = {}
+  async getUerInfo({ user_id, user_name, password, roles, email, status }) {
+    const whereOpt = {}
 
-  //   id && Object.assign(whereOpt, { id })
-  //   user_name && Object.assign(whereOpt, { user_name })
-  //   password && Object.assign(whereOpt, { password })
-  //   is_admin && Object.assign(whereOpt, { is_admin })
+    user_id && Object.assign(whereOpt, { user_id })
+    user_name && Object.assign(whereOpt, { user_name })
+    password && Object.assign(whereOpt, { password })
+    roles && Object.assign(whereOpt, { roles })
+    email && Object.assign(whereOpt, { email })
+    status && Object.assign(whereOpt, { status })
 
-  //   const res = await User.findOne({
-  //     attributes: ['id', 'user_name', 'password', 'is_admin'],
-  //     where: whereOpt,
-  //   })
+    const res = await User.findOne({
+      attributes: ['user_id', 'user_name', 'password', 'roles', 'email', 'status'],
+      where: whereOpt,
+    })
 
-  //   return res ? res.dataValues : null
-  // }
+    return res ? res.dataValues : null
+  }
 
-  // async updateById({ id, user_name, password, is_admin }) {
-  //   const whereOpt = { id }
-  //   const newUser = {}
+  async updateById({ user_id, user_name, password, roles, email, status }) {
+    const whereOpt = { user_id }
+    const newUser = {}
 
-  //   user_name && Object.assign(newUser, { user_name })
-  //   password && Object.assign(newUser, { password })
-  //   is_admin && Object.assign(newUser, { is_admin })
+    user_name && Object.assign(newUser, { user_name })
+    password && Object.assign(newUser, { password })
+    roles && Object.assign(newUser, { roles })
+    email && Object.assign(newUser, { email })
+    status && Object.assign(newUser, { status })
 
-  //   const res = await User.update(newUser, { where: whereOpt })
-  //   // console.log(res)
-  //   return res[0] > 0 ? true : false
-  // }
+    const res = await User.update(newUser, { where: whereOpt })
+    // console.log(res)
+    return res[0] > 0 ? true : false
+  }
 }
 
 module.exports = new UserService()

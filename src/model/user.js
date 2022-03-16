@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-03-15 15:02:36
- * @LastEditTime: 2022-03-15 21:10:12
+ * @LastEditTime: 2022-03-16 09:55:36
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Blog_server\src\model\user.js
@@ -85,7 +85,7 @@ const options = {
 
 const UserModel = sequelize.define('user_model', attributes, options)
 
-UserModel.sync({ force: true });
+// UserModel.sync({ force: true });
 // 这里是代码
 
 module.exports = UserModel
