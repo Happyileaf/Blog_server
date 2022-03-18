@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-03-15 16:02:26
- * @LastEditTime: 2022-03-16 11:23:01
+ * @LastEditTime: 2022-03-18 17:31:44
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Blog_server\src\app\index.js
@@ -25,7 +25,7 @@ app.use(
     formidable: {
       // 在配制选项option里, 不推荐使用相对路径
       // 注意：在option里的相对路径, 不是相对的当前文件. 相对process.cwd()
-      uploadDir: path.join(__dirname, '../upload'),
+      uploadDir: path.join(__dirname, '../public/upload'),
       keepExtensions: true,
     },
     parsedMethods: ['POST', 'PUT', 'PATCH', 'DELETE'],
