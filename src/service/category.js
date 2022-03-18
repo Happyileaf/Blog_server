@@ -1,23 +1,27 @@
 /*
  * @Author: your name
  * @Date: 2022-03-16 20:51:50
- * @LastEditTime: 2022-03-16 21:11:31
+ * @LastEditTime: 2022-03-17 14:43:15
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Blog_server\src\service\category.js
  */
 
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op
 const Category = require('../model/category')
 
 class CategoryService {
     async createCategory(category) {
+        console.log(category)
         const res = await Category.create(category)
         return res.dataValues
     }
 
-    async updateCategory(id, category) {
-        const res = await Category.update(category, { where: { id } })
-
+    async updateCategory(category_id, category) {
+        console.log('category')
+        console.log(category)
+        const res = await Category.update(category, { where: { category_id } })
         return res[0] > 0 ? true : false
     }
 
@@ -33,7 +37,7 @@ class CategoryService {
         return res > 0 ? true : false
     }
 
-    async findCategory(pageNum, pageSize) {
+    async findCategoryList(fetchQuery) {
         // // 1. 获取总数
         // const count = await Category.count()
         // // console.log(count)
@@ -41,8 +45,16 @@ class CategoryService {
         // const offset = (pageNum - 1) * pageSize
         // const rows = await Category.findAll({ offset: offset, limit: pageSize * 1 })
 
+        const { pageNum, pageSize, category_id, category_name, rank } = fetchQuery
+        const whereOpt = {}
+
+        category_id && Object.assign(whereOpt, { category_id: { [Op.like]: `%${category_id}%` } })
+        category_name && Object.assign(whereOpt, { category_name: { [Op.like]: `%${category_name}%` } })
+        rank && Object.assign(whereOpt, { rank: { [Op.eq]: rank } })
+
         const offset = (pageNum - 1) * pageSize
         const { count, rows } = await Category.findAndCountAll({
+            where: whereOpt,
             offset: offset,
             limit: pageSize * 1,
         })
@@ -58,15 +70,22 @@ class CategoryService {
         const whereOpt = {}
 
         category_id && Object.assign(whereOpt, { category_id })
+        console.log(whereOpt)
         const res = await Category.findOne({
             attributes: ['category_id', 'category_name', 'category_url', 'rank', 'back_ground', 'icon', 'status'],
             where: whereOpt,
         })
+
+        return res ? res.dataValues : null
     }
 
-    async deleteCategory(id) {
-        const res = await Category.create(category)
-        return res.dataValues
+    async deleteCategory(category_id) {
+        const res = await Category.destroy({ where: { category_id } })
+        if (res) {
+            return res
+        } else {
+            console.log('要删除的分类不存在')
+        }
     }
 }
 

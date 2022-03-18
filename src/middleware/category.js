@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-03-16 19:30:07
- * @LastEditTime: 2022-03-16 20:09:47
+ * @LastEditTime: 2022-03-17 15:05:24
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Blog_server\src\middleware\category.js
@@ -57,7 +57,7 @@ const verifyCategory = async (ctx, next) => {
     }
   } catch (err) {
     console.error('获取分类信息错误', ctx.request.body)
-    ctx.app.emit('error', categoryCreateError, ctx)
+    ctx.app.emit('error', CategoryFetchError, ctx)
     return
   }
 

@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2022-03-16 14:02:44
+ * @LastEditTime: 2022-03-17 10:05:26
+ * @LastEditors: your name
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \Blog_server\src\middleware\auth.middleware.js
+ */
 const jwt = require('jsonwebtoken')
 
 const { sign, verify } = require('../utils/token')
@@ -32,9 +40,10 @@ const auth = async (ctx, next) => {
 }
 
 const hadAdminPermission = async (ctx, next) => {
-  const { is_admin } = ctx.state.user
+  const { roles } = ctx.state.user
+  console.log(roles)
 
-  if (!is_admin) {
+  if (!roles.includes("admin")) {
     console.error('该用户没有管理员的权限', ctx.state.user)
     return ctx.app.emit('error', hasNotAdminPermission, ctx)
   }
