@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-03-16 20:23:52
- * @LastEditTime: 2022-03-19 14:12:14
+ * @LastEditTime: 2022-03-24 17:00:37
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Blog_server\src\controller\category.js
@@ -25,8 +25,9 @@ const {
 class CategoryController {
     async fetchList(ctx, next) {
         try {
+            console.log(ctx.request.query)
             const res = await findCategoryList(ctx.request.query)
-            console.log(res)
+            
             ctx.body = {
                 code: 0,
                 message: '列表查询成功',
@@ -55,6 +56,7 @@ class CategoryController {
     }
     async create(ctx, next) {
         try {
+            ctx.request.body.status = ctx.request.body.status + ''
             const res = await createCategory(ctx.request.body)
             ctx.body = {
                 code: 0,
@@ -68,11 +70,14 @@ class CategoryController {
         }
     }
     async update(ctx, next) {
+        ctx.request.body.status = ctx.request.body.status + ''
         const { category_id, ...query } = ctx.request.body
         let id = Number(category_id)
-        query.rank && (query.rank = Number(query.rank))
+        // query.rank && (query.rank = Number(query.rank))
         try {
             const res = await updateCategory(id, query)
+            console.log('test')
+            console.log(res)
             if (res) {
                 ctx.body = {
                     code: 0,

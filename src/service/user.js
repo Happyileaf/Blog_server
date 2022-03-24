@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-03-15 16:35:04
- * @LastEditTime: 2022-03-16 10:05:41
+ * @LastEditTime: 2022-03-23 17:02:08
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Blog_server\src\service\user.js
@@ -14,9 +14,13 @@ class UserService {
 
     // 因为mysql不支持数组类型，在sequelize中重写了get和set
     // 在写入前先从字符串转为数组
+    console.log('roles - pre')
+    console.log(roles)
     roles = roles.split(",")
+    console.log('roles')
+    console.log(roles)
     const res = await User.create({ user_name, password, roles, email, status })
-    // console.log(res)
+    console.log(res)
     return res.dataValues
   }
 
@@ -34,6 +38,7 @@ class UserService {
       attributes: ['user_id', 'user_name', 'password', 'roles', 'email', 'status'],
       where: whereOpt,
     })
+    console.log(res)
 
     return res ? res.dataValues : null
   }

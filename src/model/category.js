@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-03-16 15:18:20
- * @LastEditTime: 2022-03-17 15:41:28
+ * @LastEditTime: 2022-03-24 17:06:28
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Blog_server\src\model\category.js
@@ -68,8 +68,14 @@ const attributes = {
     },
     status: {
         type: DataTypes.ENUM('0', '1', '2'),
+        get() {
+            return this.getDataValue('status') - 0;
+        },
+        set(value) {
+            return this.setDataValue('status', value + "")
+        },
         allowNull: false,
-        defaultValue: '1',
+        defaultValue: 1,
         primaryKey: false,
         autoIncrement: false,
         comment: null,

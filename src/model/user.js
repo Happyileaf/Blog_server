@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-03-15 15:02:36
- * @LastEditTime: 2022-03-21 17:43:21
+ * @LastEditTime: 2022-03-24 16:55:13
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Blog_server\src\model\user.js
@@ -40,13 +40,8 @@ const attributes = {
         field: "password"
     },
     roles: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: 'user',
-        primaryKey: false,
-        autoIncrement: false,
-        comment: "角色",
-        field: "roles",
         get() {
             return this.getDataValue('roles').split(',');
         },
@@ -64,7 +59,7 @@ const attributes = {
         field: "email"
     },
     status: {
-        type: DataTypes.ENUM('0', '1'),
+        type: DataTypes.ENUM('0', '1', '2'),
         allowNull: false,
         // defaultValue: null,
         primaryKey: false,

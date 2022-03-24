@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-03-16 20:51:50
- * @LastEditTime: 2022-03-17 14:43:15
+ * @LastEditTime: 2022-03-24 16:40:55
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Blog_server\src\service\category.js
@@ -19,8 +19,8 @@ class CategoryService {
     }
 
     async updateCategory(category_id, category) {
-        console.log('category')
         console.log(category)
+        console.log(category_id)
         const res = await Category.update(category, { where: { category_id } })
         return res[0] > 0 ? true : false
     }
@@ -70,7 +70,6 @@ class CategoryService {
         const whereOpt = {}
 
         category_id && Object.assign(whereOpt, { category_id })
-        console.log(whereOpt)
         const res = await Category.findOne({
             attributes: ['category_id', 'category_name', 'category_url', 'rank', 'back_ground', 'icon', 'status'],
             where: whereOpt,
