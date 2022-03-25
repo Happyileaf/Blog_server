@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-03-21 16:41:36
- * @LastEditTime: 2022-03-21 17:59:17
+ * @LastEditTime: 2022-03-25 16:02:42
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Blog_server\src\model\preset\recommendationNav.js
@@ -25,7 +25,6 @@ const attributes = {
         allowNull: false,
         // defaultValue: null,
         primaryKey: false,
-        unique: true,
         autoIncrement: false,
         comment: null,
         field: "nav_name"
@@ -49,7 +48,7 @@ const attributes = {
         field: "nav_logo"
     },
     nav_intro: {
-        type: DataTypes.INTEGER(10),
+        type: DataTypes.STRING(255),
         allowNull: false,
         // defaultValue: null,
         primaryKey: false,
@@ -58,7 +57,7 @@ const attributes = {
         field: "nav_intro"
     },
     nav_type: {
-        type: DataTypes.INTEGER(10),
+        type: DataTypes.STRING(255),
         allowNull: false,
         // defaultValue: null,
         primaryKey: false,
