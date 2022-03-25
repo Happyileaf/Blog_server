@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-03-20 17:12:36
- * @LastEditTime: 2022-03-20 18:02:50
+ * @LastEditTime: 2022-03-25 22:07:08
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Blog_server\src\service\userManage.js
@@ -17,15 +17,16 @@ class UserManageService {
         console.log(user)
         // 因为mysql不支持数组类型，在sequelize中重写了get和set
         // 在写入前先从字符串转为数组
-        user.roles = user.roles.split(",")
+        // user.roles = user.roles.split(",")
         const res = await UserManage.create(user)
         return res.dataValues
     }
 
     async updateUser(user_id, user) {
         console.log('user')
+        // user.roles = ['user']
         console.log(user)
-        user.roles = user.roles.split(",")
+        // user.roles = user.roles.split(",")
         const res = await UserManage.update(user, { where: { user_id } })
         return res[0] > 0 ? true : false
     }
@@ -49,14 +50,18 @@ class UserManageService {
         // // 2. 获取分页的具体数据
         // const offset = (pageNum - 1) * pageSize
         // const rows = await UserManage.findAll({ offset: offset, limit: pageSize * 1 })
-
-        const { pageNum, pageSize, user_id, user_name, status } = fetchQuery
+        console.log('fetchQuery')
+        console.log(fetchQuery)
+        const { pageNum, pageSize, user_id, user_name, roles, email, status } = fetchQuery
         const whereOpt = {}
 
         user_id && Object.assign(whereOpt, { user_id: { [Op.like]: `%${user_id}%` } })
         user_name && Object.assign(whereOpt, { user_name: { [Op.like]: `%${user_name}%` } })
+        roles && Object.assign(whereOpt, { roles: { [Op.like]: `%${roles}%` } })
+        email && Object.assign(whereOpt, { email: { [Op.like]: `%${email}%` } })
         status && Object.assign(whereOpt, { status: { [Op.eq]: status } })
-
+        console.log('whereOpt')
+        console.log(whereOpt)
         const offset = (pageNum - 1) * pageSize
         const { count, rows } = await UserManage.findAndCountAll({
             where: whereOpt,
