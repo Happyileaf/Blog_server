@@ -1,61 +1,53 @@
 /*
  * @Author: your name
- * @Date: 2022-03-20 17:12:36
- * @LastEditTime: 2022-03-27 17:40:11
+ * @Date: 2022-03-27 16:39:06
+ * @LastEditTime: 2022-03-27 21:33:03
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: \Blog_server\src\service\userManage.js
+ * @FilePath: \Blog_server\src\service\userInfo.js
  */
 
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op
-const UserManage = require('../model/user')
-const User = require('../service/user')
 const UserInfo = require('../model/userInfo')
 
-class UserManageService {
-    async createUser(user) {
-        console.log('user')
-        console.log(user)
+class UserInfoService {
+    async createUserInfo(userInfo) {
         // 因为mysql不支持数组类型，在sequelize中重写了get和set
         // 在写入前先从字符串转为数组
         // user.roles = user.roles.split(",")
-        const res = await UserManage.create(user)
-        const { user_id } = await User.getUerInfo({ user_name:user.user_name })
-        console.log('user_id')
-        console.log(user_id)
-        const x = await UserInfo.create({ user_id })
+        const res = await UserInfo.create(userInfo)
         return res.dataValues
     }
 
-    async updateUser(user_id, user) {
+    async updateUserInfo(user_id, userInfo) {
         console.log('user')
         // user.roles = ['user']
-        console.log(user)
+        console.log(userInfo)
         // user.roles = user.roles.split(",")
-        const res = await UserManage.update(user, { where: { user_id } })
+        const res = await UserInfo.update(userInfo, { where: { user_id } })
         return res[0] > 0 ? true : false
     }
 
-    async removeUser(id) {
-        const res = await UserManage.destroy({ where: { id } })
+    async removeUserInfo(id) {
+        const res = await UserInfo.destroy({ where: { id } })
 
         return res > 0 ? true : false
     }
 
-    async restoreUser(id) {
-        const res = await UserManage.restore({ where: { id } })
+    async restoreUserInfo(id) {
+        const res = await UserInfo.restore({ where: { id } })
 
         return res > 0 ? true : false
     }
 
-    async findUserList(fetchQuery) {
+    async findUserInfoList(fetchQuery) {
         // // 1. 获取总数
-        // const count = await UserManage.count()
+        // const count = await UserInfo.count()
         // // console.log(count)
         // // 2. 获取分页的具体数据
         // const offset = (pageNum - 1) * pageSize
-        // const rows = await UserManage.findAll({ offset: offset, limit: pageSize * 1 })
+        // const rows = await UserInfo.findAll({ offset: offset, limit: pageSize * 1 })
         console.log('fetchQuery')
         console.log(fetchQuery)
         const { pageNum, pageSize, user_id, user_name, roles, email, status } = fetchQuery
@@ -69,7 +61,7 @@ class UserManageService {
         console.log('whereOpt')
         console.log(whereOpt)
         const offset = (pageNum - 1) * pageSize
-        const { count, rows } = await UserManage.findAndCountAll({
+        const { count, rows } = await UserInfo.findAndCountAll({
             where: whereOpt,
             offset: offset,
             limit: pageSize * 1,
@@ -82,21 +74,21 @@ class UserManageService {
         }
     }
 
-    async findUserById(user_id) {
+    async findUserInfo(user_id) {
         const whereOpt = {}
 
         user_id && Object.assign(whereOpt, { user_id })
         console.log(whereOpt)
-        const res = await UserManage.findOne({
-            attributes: ['user_id', 'user_name', 'password', 'roles', 'email', 'status'],
+        const res = await UserInfo.findOne({
+            // attributes: ['user_id', 'user_name', 'password', 'roles', 'email', 'status'],
             where: whereOpt,
         })
 
         return res ? res.dataValues : null
     }
 
-    async deleteUser(user_id) {
-        const res = await UserManage.destroy({ where: { user_id } })
+    async deleteUserInfo(user_id) {s
+        const res = await UserInfo.destroy({ where: { user_id } })
         if (res) {
             return res
         } else {
@@ -105,4 +97,4 @@ class UserManageService {
     }
 }
 
-module.exports = new UserManageService()
+module.exports = new UserInfoService()
