@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2022-03-18 14:23:52
- * @LastEditTime: 2022-03-24 17:45:39
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-07 22:33:05
+ * @LastEditors: happy 997401767@qq.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Blog_server\src\service\tag.js
  */
@@ -70,13 +70,14 @@ class TagService {
     async findTagById(tag_id) {
         const whereOpt = {}
 
-        tag_id && Object.assign(whereOpt, { tag_id })
+        if(tag_id||tag_id===0)Object.assign(whereOpt, { tag_id })
         console.log(whereOpt)
         const res = await Tag.findOne({
             attributes: ['tag_id', 'tag_name', 'tag_url', 'rank', 'color', 'back_ground', 'icon', 'status'],
             where: whereOpt,
         })
-
+        console.log('tag res')
+        console.log(res)
         return res ? res.dataValues : null
     }
 

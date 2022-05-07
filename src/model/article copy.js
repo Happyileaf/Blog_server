@@ -1,12 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2022-03-19 13:50:30
- * @LastEditTime: 2022-05-07 21:40:16
- * @LastEditors: happy 997401767@qq.com
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: \Blog_server\src\model\article.js
- */
-
 const { DataTypes } = require('sequelize')
 const sequelize = require('../db/sequelize')
 const attributes = {
@@ -40,10 +31,9 @@ const attributes = {
     },
     tag_ids: {
         type: DataTypes.STRING(255),
-        // get() {
-        //     // console.log(this.getDataValue('tag_ids'))
-        //     return JSON.parse(this.getDataValue('tag_ids'));
-        // },
+        get() {
+            return JSON.parse(this.getDataValue('tag_ids'));
+        },
         set(value) {
             return this.setDataValue('tag_ids', JSON.stringify(value))
         },
@@ -53,24 +43,6 @@ const attributes = {
         autoIncrement: false,
         comment: null,
         field: "tag_ids"
-    },
-    link_url: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-        // defaultValue: null,
-        primaryKey: false,
-        autoIncrement: false,
-        comment: null,
-        field: "link_url"
-    },
-    cover_image: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-        // defaultValue: null,
-        primaryKey: false,
-        autoIncrement: false,
-        comment: null,
-        field: "cover_image"
     },
     title: {
         type: DataTypes.STRING(255),
@@ -99,24 +71,6 @@ const attributes = {
         comment: null,
         field: "content"
     },
-    visible_level: {
-        type: DataTypes.ENUM('0', '1', '2'),
-        allowNull: true,
-        // defaultValue: null,
-        primaryKey: false,
-        autoIncrement: false,
-        comment: null,
-        field: "visible_level"
-    },
-    view_count: {
-        type: DataTypes.INTEGER(10).UNSIGNED,
-        allowNull: true,
-        defaultValue: 0,
-        primaryKey: false,
-        autoIncrement: false,
-        comment: null,
-        field: "view_count"
-    },
     status: {
         type: DataTypes.ENUM('0', '1', '2'),
         allowNull: false,
@@ -138,8 +92,16 @@ const options = {
 }
 
 const ArticleModel = sequelize.define('article_model', attributes, options)
-
-
 // ArticleModel.sync({ force: true });
-
 module.exports = ArticleModel
+
+
+
+
+
+
+
+
+
+
+

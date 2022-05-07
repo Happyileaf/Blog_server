@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2022-03-27 16:39:06
- * @LastEditTime: 2022-03-27 21:33:03
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-08 00:20:47
+ * @LastEditors: happy 997401767@qq.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Blog_server\src\service\userInfo.js
  */
@@ -83,7 +83,8 @@ class UserInfoService {
             // attributes: ['user_id', 'user_name', 'password', 'roles', 'email', 'status'],
             where: whereOpt,
         })
-
+        console.log('userinfo res')
+        // console.log(res)
         return res ? res.dataValues : null
     }
 

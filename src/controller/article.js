@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2022-03-19 14:12:02
- * @LastEditTime: 2022-03-19 16:41:50
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-08 00:27:29
+ * @LastEditors: happy 997401767@qq.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Blog_server\src\controller\article.js
  */
@@ -15,18 +15,75 @@ const {
     deleteArticle } = require('../service/article')
 
 const {
+    findUserInfo,
+    createUserInfo,
+    updateUserInfo,
+    deleteUserInfo } = require('../service/userInfo')
+
+const {
+    findCategoryList,
+    findCategoryById,
+    createCategory,
+    updateCategory,
+    deleteCategory } = require('../service/category')
+
+const {
+    findTagList,
+    findTagById,
+    createTag,
+    updateTag,
+    deleteTag } = require('../service/tag')
+const {
+    getUerInfo
+} = require('../service/user')
+
+const {
     ArticleListFetchError,
     ArticleFetchError,
     ArticleCreateError,
     ArticleUpdateError,
     ArticleDeleteError
 } = require('../constant/errType/err.article')
+const response = require('koa/lib/response')
 
 class ArticleController {
     async fetchList(ctx, next) {
         try {
             const res = await findArticleList(ctx.request.query)
-            console.log(res)
+            // console.log(res.list)
+            let user_info, category_info, tags_info = []
+            await Promise.all(
+                res.list.map(async x => {
+                    const { user_id, category_id, tag_ids } = x
+                    let tags = JSON.parse(tag_ids)
+                    // console.log('Array.isArray(tags)')
+                    // console.log(Array.isArray(tags))
+                    let user_info = await findUserInfo(user_id)
+                    let category_info = await findCategoryById(category_id)
+                    let tags_info = []
+
+                    await Promise.all(
+                        tags_info = tags.map(async x => {
+                            console.log('x')
+                            console.log(x)
+                            let tep = await findTagById(x)
+                            return tep
+                        })).then(response => {
+                            tags_info = response
+                        });
+
+                    return {
+                        'article_info': x,
+                        user_info,
+                        category_info,
+                        tags_info
+                    }
+                })
+            ).then(response => {
+                // console.log(response)
+                res.list = response
+            });
+
             ctx.body = {
                 code: 0,
                 message: '列表查询成功',
@@ -40,8 +97,11 @@ class ArticleController {
     }
     async fetchArticle(ctx, next) {
         try {
-            const { article_id } = ctx.request.query
-            const res = await findArticleById(ctx.article_id)
+            const { id: article_id } = ctx.request.query
+            console.log('article_id')
+            const res = await findArticleById(article_id)
+            const { user_id, category_id, tag_ids } = res
+            console.log(res)
             ctx.body = {
                 code: 0,
                 message: '文章查询成功',
@@ -68,6 +128,8 @@ class ArticleController {
         }
     }
     async update(ctx, next) {
+        ctx.request.body.status = ctx.request.body.status + ''
+        ctx.request.body.tags_id = JSON.stringify(ctx.request.body.tags_id)
         const { article_id, ...query } = ctx.request.body
         let id = Number(article_id)
         try {
