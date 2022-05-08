@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-03-27 16:39:06
- * @LastEditTime: 2022-05-08 00:20:47
+ * @LastEditTime: 2022-05-08 11:41:45
  * @LastEditors: happy 997401767@qq.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Blog_server\src\service\userInfo.js
@@ -21,9 +21,9 @@ class UserInfoService {
     }
 
     async updateUserInfo(user_id, userInfo) {
-        console.log('user')
+        // console.log('user')
         // user.roles = ['user']
-        console.log(userInfo)
+        // console.log(userInfo)
         // user.roles = user.roles.split(",")
         const res = await UserInfo.update(userInfo, { where: { user_id } })
         return res[0] > 0 ? true : false
@@ -48,8 +48,8 @@ class UserInfoService {
         // // 2. 获取分页的具体数据
         // const offset = (pageNum - 1) * pageSize
         // const rows = await UserInfo.findAll({ offset: offset, limit: pageSize * 1 })
-        console.log('fetchQuery')
-        console.log(fetchQuery)
+        // console.log('fetchQuery')
+        // console.log(fetchQuery)
         const { pageNum, pageSize, user_id, user_name, roles, email, status } = fetchQuery
         const whereOpt = {}
 
@@ -58,8 +58,8 @@ class UserInfoService {
         roles && Object.assign(whereOpt, { roles: { [Op.like]: `%${roles}%` } })
         email && Object.assign(whereOpt, { email: { [Op.like]: `%${email}%` } })
         status && Object.assign(whereOpt, { status: { [Op.eq]: status } })
-        console.log('whereOpt')
-        console.log(whereOpt)
+        // console.log('whereOpt')
+        // console.log(whereOpt)
         const offset = (pageNum - 1) * pageSize
         const { count, rows } = await UserInfo.findAndCountAll({
             where: whereOpt,
@@ -77,13 +77,13 @@ class UserInfoService {
     async findUserInfo(user_id) {
         const whereOpt = {}
 
-        user_id && Object.assign(whereOpt, { user_id })
-        console.log(whereOpt)
+        user_id && Object.assign(whereOpt, { user_id})
+        // console.log(whereOpt)
         const res = await UserInfo.findOne({
             // attributes: ['user_id', 'user_name', 'password', 'roles', 'email', 'status'],
             where: whereOpt,
         })
-        console.log('userinfo res')
+        // console.log('userinfo res')
         // console.log(res)
         return res ? res.dataValues : null
     }

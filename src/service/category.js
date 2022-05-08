@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2022-03-16 20:51:50
- * @LastEditTime: 2022-03-24 16:40:55
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-08 18:18:21
+ * @LastEditors: happy 997401767@qq.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Blog_server\src\service\category.js
  */
@@ -13,14 +13,11 @@ const Category = require('../model/category')
 
 class CategoryService {
     async createCategory(category) {
-        console.log(category)
         const res = await Category.create(category)
         return res.dataValues
     }
 
     async updateCategory(category_id, category) {
-        console.log(category)
-        console.log(category_id)
         const res = await Category.update(category, { where: { category_id } })
         return res[0] > 0 ? true : false
     }
@@ -45,12 +42,14 @@ class CategoryService {
         // const offset = (pageNum - 1) * pageSize
         // const rows = await Category.findAll({ offset: offset, limit: pageSize * 1 })
 
-        const { pageNum, pageSize, category_id, category_name, rank } = fetchQuery
+        const { pageNum, pageSize, category_id, category_name, rank,status } = fetchQuery
         const whereOpt = {}
-
+        
         category_id && Object.assign(whereOpt, { category_id: { [Op.like]: `%${category_id}%` } })
         category_name && Object.assign(whereOpt, { category_name: { [Op.like]: `%${category_name}%` } })
+        category_name && Object.assign(whereOpt, { category_name: { [Op.like]: `%${category_name}%` } })
         rank && Object.assign(whereOpt, { rank: { [Op.eq]: rank } })
+        status && Object.assign(whereOpt, { status: { [Op.eq]: status } })
 
         const offset = (pageNum - 1) * pageSize
         const { count, rows } = await Category.findAndCountAll({

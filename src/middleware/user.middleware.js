@@ -25,12 +25,16 @@ const userValidator = async (ctx, next) => {
 
 const crpytPassword = async (ctx, next) => {
   const { password } = ctx.request.body
+  // console.log('password')
+  // console.log(password)
 
-  const salt = bcrypt.genSaltSync(10)
-  // hash保存的是 密文
-  const hash = bcrypt.hashSync(password, salt)
+  if (password) {
+    const salt = bcrypt.genSaltSync(10)
+    // hash保存的是 密文
+    const hash = bcrypt.hashSync(password, salt)
 
-  ctx.request.body.password = hash
+    ctx.request.body.password = hash
+  }
 
   await next()
 }
@@ -58,6 +62,8 @@ const verifyUser = async (ctx, next) => {
 const verifyLogin = async (ctx, next) => {
   // 1. 判断用户是否存在(不存在:报错)
   const { user_name, password } = ctx.request.body
+  // console.log(user_name)
+  // console.log(password)
 
   try {
     const res = await getUerInfo({ user_name })

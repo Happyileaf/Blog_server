@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-03-19 14:12:02
- * @LastEditTime: 2022-05-08 00:27:29
+ * @LastEditTime: 2022-05-08 11:53:41
  * @LastEditors: happy 997401767@qq.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Blog_server\src\controller\article.js
@@ -50,7 +50,6 @@ class ArticleController {
     async fetchList(ctx, next) {
         try {
             const res = await findArticleList(ctx.request.query)
-            // console.log(res.list)
             let user_info, category_info, tags_info = []
             await Promise.all(
                 res.list.map(async x => {
@@ -64,8 +63,8 @@ class ArticleController {
 
                     await Promise.all(
                         tags_info = tags.map(async x => {
-                            console.log('x')
-                            console.log(x)
+                            // console.log('x')
+                            // console.log(x)
                             let tep = await findTagById(x)
                             return tep
                         })).then(response => {
@@ -98,10 +97,8 @@ class ArticleController {
     async fetchArticle(ctx, next) {
         try {
             const { id: article_id } = ctx.request.query
-            console.log('article_id')
             const res = await findArticleById(article_id)
             const { user_id, category_id, tag_ids } = res
-            console.log(res)
             ctx.body = {
                 code: 0,
                 message: '文章查询成功',

@@ -1,5 +1,5 @@
 const content = require("./article")
-
+'$2a$10$G1gFlsh/CXKhqCNtymu3g.DNxHjdBnmaAmC/pQ0fWdzlGufbKAn6S'
 module.exports = [
     /** 前端 -----------------------------------------------------------------------------*/
     {

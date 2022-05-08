@@ -25,7 +25,6 @@ const {
 class CategoryController {
     async fetchList(ctx, next) {
         try {
-            console.log(ctx.request.query)
             const res = await findCategoryList(ctx.request.query)
             
             ctx.body = {
